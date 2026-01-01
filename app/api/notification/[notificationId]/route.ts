@@ -4,6 +4,10 @@ import {SessionUser} from "@/types";
 
 import prisma from "@/app/libs/prismadb"
 
+/**
+ * The  function updates the notification read 
+ * status as read
+ */
 export async function PATCH(req: NextRequest) {
     try {
         const session = await getSession()
