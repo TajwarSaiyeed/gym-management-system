@@ -1,4 +1,4 @@
-import { getSession } from "@/app/api/users/route";
+import { getSession } from "@/app/actions/getCurrentUser";
 import { SessionUser } from "@/types";
 import { NextResponse } from "next/server";
 

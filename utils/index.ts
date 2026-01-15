@@ -1,6 +1,5 @@
 import axios from "axios";
 import {KeyedMutator} from "swr";
-import {AppRouterInstance} from "next/dist/shared/lib/app-router-context";
 
 export const convertToBase64 = (file: File) => {
     return new Promise((resolve, reject) => {
@@ -23,7 +22,7 @@ export const toDate = (timeString: string) => {
     return now.toLocaleTimeString();
 };
 
-export const handleActiveStatus = async (router: AppRouterInstance,status: string, mutate?: KeyedMutator<any>) => {
+export const handleActiveStatus = async (router: any,status: string, mutate?: KeyedMutator<any>) => {
 
     try {
         const data = {

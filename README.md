@@ -1,3 +1,5 @@
+![thumbnail](./gym-management.png)
+
 # Gym Management System Documentation
 
 The Gym Management System is a web application designed to facilitate the management of a fitness center or gym. It provides various features for different user roles including administrators, trainers, and students.

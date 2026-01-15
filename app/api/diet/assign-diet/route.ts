@@ -1,7 +1,7 @@
 import prisma from "@/app/libs/prismadb";
 import { DietFood, SessionUser } from "@/types";
 import { NextResponse } from "next/server";
-import { getSession } from "../../users/route";
+import { getSession } from "@/app/actions/getCurrentUser";
 
 export async function POST(req: Request) {
   try {

@@ -2,7 +2,7 @@
 import UserDashboard from "@/app/components/UserDashboard";
 import AdminTrainerDashboard from "@/app/components/AdminTrainerDashboard";
 import getCurrentUser from "@/app/actions/getCurrentUser";
-import ClientOnly from "@/app/components/ClientOnly/page";
+import ClientOnly from "@/app/components/ClientOnly/ClientOnly";
 import Empty from "@/app/components/Empty";
 
 export const revalidate = 0;

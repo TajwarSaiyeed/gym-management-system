@@ -2,7 +2,7 @@ import "./globals.css";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 
-import ClientOnly from "./components/ClientOnly/page";
+import ClientOnly from "./components/ClientOnly/ClientOnly";
 import ToasterProvider from "@/providers/toast-provider";
 import AuthProvider from "./context/AuthProvider/AuthProvider";
 

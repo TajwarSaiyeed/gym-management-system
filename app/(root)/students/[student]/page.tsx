@@ -1,11 +1,11 @@
-import ClientOnly from "@/app/components/ClientOnly/page";
+import ClientOnly from "@/app/components/ClientOnly/ClientOnly";
 import Empty from "@/app/components/Empty";
 import getUser from "@/app/actions/getUser";
 import UserClient from "@/app/components/User/User";
 
-const StudentPage: React.FC<{ params: { student: string } }> = async ({
-  params,
-}) => {
+const StudentPage = async (props: { params: Promise<{ student: string }> }) => {
+  const params = await props.params;
+
   if (!params?.student) {
     return (
       <ClientOnly>
@@ -17,7 +17,7 @@ const StudentPage: React.FC<{ params: { student: string } }> = async ({
     );
   }
 
-  const student = await getUser({ userId: params?.student as string });
+  const student = await getUser({ userId: params.student });
 
   if (!student) {
     return (

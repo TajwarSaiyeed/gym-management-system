@@ -1,24 +1,13 @@
 import bcrypt from "bcrypt";
-import {getServerSession} from "next-auth/next";
-import {NextApiRequest} from "next";
 import {NextResponse} from "next/server";
-import {options} from "../auth/[...nextauth]/options";
 import {SessionUser} from "@/types";
 import prisma from "@/app/libs/prismadb";
 import {User} from "@prisma/client";
 import {revalidatePath} from "next/cache";
 
-export async function getSession() {
-    try {
-        return await getServerSession(options);
-    } catch (error) {
-        // If there's an error, log it and return null to indicate no active session
-        console.error("Error while fetching session:", error);
-        return null;
-    }
-}
+import { getSession } from "@/app/actions/getCurrentUser";
 
-export async function GET(request: NextApiRequest) {
+export async function GET(request: Request) {
     const session = await getSession();
 
     const sessionUser = session?.user as SessionUser;

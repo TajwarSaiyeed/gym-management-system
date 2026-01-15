@@ -1,11 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
 import Stripe from "stripe";
-import { getSession } from "../../users/route";
+import { getSession } from "@/app/actions/getCurrentUser";
 import { SessionUser } from "@/types";
 import prisma from "@/app/libs/prismadb";
 
 const stripe = new Stripe(process.env.NEXT_PUBLIC_STRIPE_SECRET_KEY!, {
-  apiVersion: "2022-11-15",
+  apiVersion: "2023-08-16",
 });
 
 export async function GET(req: NextRequest) {

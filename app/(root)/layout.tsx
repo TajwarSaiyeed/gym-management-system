@@ -1,15 +1,15 @@
 "use client";
 
 import Link from "next/link";
-import React, {useState} from "react";
+import React, { useState } from "react";
 
 import CssBaseline from "@mui/material/CssBaseline";
-import {createTheme, styled, ThemeProvider} from "@mui/material/styles";
-import MuiAppBar, {AppBarProps as MuiAppBarProps} from "@mui/material/AppBar";
+import { createTheme, styled, ThemeProvider } from "@mui/material/styles";
+import MuiAppBar, { AppBarProps as MuiAppBarProps } from "@mui/material/AppBar";
 
 
 import Logout from "@mui/icons-material/Logout";
-import {signOut, useSession} from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
 
 import MuiDrawer from "@mui/material/Drawer";
 import MenuIcon from "@mui/icons-material/Menu";
@@ -21,8 +21,9 @@ import axios from "axios";
 import useSWR from "swr";
 import Loading from "../loading";
 
-import {Notification} from "@prisma/client";
-import {Container,
+import { Notification } from "@prisma/client";
+import {
+    Container,
     Typography,
     IconButton,
     ListItemIcon, Box,
@@ -33,9 +34,10 @@ import {Container,
     Tooltip,
     Divider,
     Toolbar,
-    MenuItem} from "@mui/material";
-import {handleActiveStatus} from "@/utils";
-import {useRouter} from "next/navigation";
+    MenuItem
+} from "@mui/material";
+import { handleActiveStatus } from "@/utils";
+import { useRouter } from "next/navigation";
 
 const drawerWidth: number = 240;
 
@@ -45,7 +47,7 @@ interface AppBarProps extends MuiAppBarProps {
 
 const AppBar = styled(MuiAppBar, {
     shouldForwardProp: (prop) => prop !== "open",
-})<AppBarProps>(({theme, open}) => ({
+})<AppBarProps>(({ theme, open }) => ({
     zIndex: theme.zIndex.drawer + 1,
     transition: theme.transitions.create(["width", "margin"], {
         easing: theme.transitions.easing.sharp,
@@ -63,7 +65,7 @@ const AppBar = styled(MuiAppBar, {
 
 const Drawer = styled(MuiDrawer, {
     shouldForwardProp: (prop) => prop !== "open",
-})(({theme, open}) => ({
+})(({ theme, open }) => ({
     "& .MuiDrawer-paper": {
         position: "relative",
         whiteSpace: "nowrap",
@@ -98,8 +100,8 @@ const fetcher = async (...args: Parameters<typeof axios>) => {
     return res;
 };
 
-const DashboardLayout = ({children}: DashboardLayoutProps) => {
-    const {data} = useSession();
+const DashboardLayout = ({ children }: DashboardLayoutProps) => {
+    const { data } = useSession();
     const router = useRouter()
 
     const {
@@ -131,7 +133,7 @@ const DashboardLayout = ({children}: DashboardLayoutProps) => {
             const res = await axios.patch(`/api/notification/${notificationId}`);
 
             if (res.status === 201) {
-                await mutate("/api/notification")
+                await mutate()
             }
         } catch (error) {
         }
@@ -152,13 +154,13 @@ const DashboardLayout = ({children}: DashboardLayoutProps) => {
 
 
     if (isLoading) {
-        return <Loading/>;
+        return <Loading />;
     }
 
     return (
         <ThemeProvider theme={defaultTheme}>
-            <Box sx={{display: "flex"}}>
-                <CssBaseline/>
+            <Box sx={{ display: "flex" }}>
+                <CssBaseline />
                 <AppBar position="absolute" open={open}>
                     <Toolbar
                         sx={{
@@ -172,19 +174,19 @@ const DashboardLayout = ({children}: DashboardLayoutProps) => {
                             onClick={toggleDrawer}
                             sx={{
                                 marginRight: "36px",
-                                ...(open && {display: "none"}),
+                                ...(open && { display: "none" }),
                             }}
                         >
-                            <MenuIcon/>
+                            <MenuIcon />
                         </IconButton>
                         <Typography
                             component="h1"
                             variant="h6"
                             color="inherit"
                             noWrap
-                            sx={{flexGrow: 1}}
+                            sx={{ flexGrow: 1 }}
                         >
-                           Gym
+                            Gym
                         </Typography>
                         <Box>
                             <Tooltip title="Notifications">
@@ -192,7 +194,7 @@ const DashboardLayout = ({children}: DashboardLayoutProps) => {
                                     color="inherit"
                                     onClick={handleNotificationsClick}
                                     size="small"
-                                    sx={{ml: 2}}
+                                    sx={{ ml: 2 }}
                                     aria-controls={
                                         notificationsOpen ? "notification-menu" : undefined
                                     }
@@ -203,7 +205,7 @@ const DashboardLayout = ({children}: DashboardLayoutProps) => {
                                         badgeContent={notifyData ? notifyData?.data?.unRead : 0}
                                         color="secondary"
                                     >
-                                        <NotificationsIcon/>
+                                        <NotificationsIcon />
                                     </Badge>
                                 </IconButton>
                             </Tooltip>
@@ -217,8 +219,8 @@ const DashboardLayout = ({children}: DashboardLayoutProps) => {
                                 onClose={handleNotificationsClose}
                                 onClick={handleNotificationsClose}
 
-                                transformOrigin={{horizontal: "right", vertical: "top"}}
-                                anchorOrigin={{horizontal: "right", vertical: "bottom"}}
+                                transformOrigin={{ horizontal: "right", vertical: "top" }}
+                                anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
                             >
                                 {notifyData &&
                                     notifyData?.data?.data?.filter((n: Notification) => !n.read)?.sort((a: Notification, b: Notification) => (new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
@@ -234,7 +236,7 @@ const DashboardLayout = ({children}: DashboardLayoutProps) => {
                                             </MenuItem>
                                         </Link>
                                     ))}
-                                <Divider/>
+                                <Divider />
                                 <Link href="/notifications" passHref>
                                     <MenuItem
                                         sx={{
@@ -252,13 +254,13 @@ const DashboardLayout = ({children}: DashboardLayoutProps) => {
                                 <IconButton
                                     onClick={handleClick}
                                     size="small"
-                                    sx={{ml: 2}}
+                                    sx={{ ml: 2 }}
                                     aria-controls={menuOpen ? "account-menu" : undefined}
                                     aria-haspopup="true"
                                     aria-expanded={menuOpen ? "true" : undefined}
                                 >
                                     <Avatar
-                                        sx={{width: 32, height: 32}}
+                                        sx={{ width: 32, height: 32 }}
                                         src={data?.user?.image ? data?.user?.image : undefined}
                                         alt={data?.user?.name ? data?.user?.name : undefined}
                                     />
@@ -282,8 +284,8 @@ const DashboardLayout = ({children}: DashboardLayoutProps) => {
                                     },
 
                                 }}
-                                transformOrigin={{horizontal: "right", vertical: "top"}}
-                                anchorOrigin={{horizontal: "right", vertical: "bottom"}}
+                                transformOrigin={{ horizontal: "right", vertical: "top" }}
+                                anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
                             >
                                 <Link href="/profile" passHref>
                                     <MenuItem onClick={handleClose}>
@@ -294,11 +296,11 @@ const DashboardLayout = ({children}: DashboardLayoutProps) => {
                                     </MenuItem>
                                 </Link>
 
-                                <Divider/>
+                                <Divider />
 
                                 <MenuItem onClick={handleLogout}>
                                     <ListItemIcon>
-                                        <Logout fontSize="small"/>
+                                        <Logout fontSize="small" />
                                     </ListItemIcon>
                                     Logout
                                 </MenuItem>
@@ -316,12 +318,12 @@ const DashboardLayout = ({children}: DashboardLayoutProps) => {
                         }}
                     >
                         <IconButton onClick={toggleDrawer}>
-                            <ChevronLeftIcon/>
+                            <ChevronLeftIcon />
                         </IconButton>
                     </Toolbar>
-                    <Divider/>
+                    <Divider />
                     <List component="nav">
-                        <ListItems/>
+                        <ListItems />
                     </List>
                 </Drawer>
                 <Box
@@ -336,8 +338,8 @@ const DashboardLayout = ({children}: DashboardLayoutProps) => {
                         overflow: "auto",
                     }}
                 >
-                    <Toolbar/>
-                    <Container maxWidth="lg" sx={{mt: 4, mb: 4}}>
+                    <Toolbar />
+                    <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
                         {children}
                     </Container>
                 </Box>

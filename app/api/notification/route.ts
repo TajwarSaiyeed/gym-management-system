@@ -1,6 +1,6 @@
 import Error from "next/error";
 import { NextResponse } from "next/server";
-import { getSession } from "../users/route";
+import { getSession } from "@/app/actions/getCurrentUser";
 import { SessionUser } from "@/types";
 import prisma from "@/app/libs/prismadb";
 

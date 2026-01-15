@@ -1,13 +1,13 @@
-import ClientOnly from "@/app/components/ClientOnly/page";
+import ClientOnly from "@/app/components/ClientOnly/ClientOnly";
 import Empty from "@/app/components/Empty";
 import getUser from "@/app/actions/getUser";
 import UserClient from "@/app/components/User/User";
 
-export default async function TrainerPage({
-  params,
-}: {
-  params: { trainer: string };
+export default async function TrainerPage(props: {
+  params: Promise<{ trainer: string }>;
 }) {
+  const params = await props.params;
+
   if (!params?.trainer) {
     return (
       <ClientOnly>
@@ -19,7 +19,7 @@ export default async function TrainerPage({
     );
   }
 
-  const trainer = await getUser({ userId: params?.trainer as string });
+  const trainer = await getUser({ userId: params.trainer });
 
   if (!trainer) {
     return (

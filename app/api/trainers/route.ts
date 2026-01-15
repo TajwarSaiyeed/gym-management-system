@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { SessionUser } from "@/types";
-import { getSession } from "../users/route";
+import { getSession } from "@/app/actions/getCurrentUser";
 import prisma from "@/app/libs/prismadb";
 
 export const dynamic = "force-dynamic";

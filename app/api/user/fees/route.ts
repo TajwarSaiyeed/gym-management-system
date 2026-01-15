@@ -1,5 +1,5 @@
 import prisma from "@/app/libs/prismadb";
-import { getSession } from "../../users/route";
+import { getSession } from "@/app/actions/getCurrentUser";
 import { SessionUser } from "@/types";
 import { NextResponse } from "next/server";
 
