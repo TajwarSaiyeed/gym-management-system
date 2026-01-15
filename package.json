@@ -50,5 +50,16 @@
   },
   "devDependencies": {
     "prisma": "^5.1.1"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "@prisma/client",
+      "@prisma/engines",
+      "bcrypt",
+      "core-js",
+      "prisma",
+      "sharp",
+      "unrs-resolver"
+    ]
   }
 }

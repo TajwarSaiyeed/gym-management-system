@@ -1,8 +1,0 @@
-onlyBuiltDependencies:
-  - '@prisma/client'
-  - '@prisma/engines'
-  - bcrypt
-  - core-js
-  - prisma
-  - sharp
-  - unrs-resolver
