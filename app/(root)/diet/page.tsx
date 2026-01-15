@@ -6,9 +6,9 @@ import {
   CssBaseline,
   ThemeProvider,
   createTheme,
+  styled,
 } from "@mui/material";
 import Link from "next/link";
-import { styled } from "@mui/system";
 import withAdminTrainer from "@/app/components/withAdminTrainer";
 
 const defaultTheme = createTheme();
