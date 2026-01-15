@@ -1,8 +1,9 @@
-import {NextResponse} from "next/server";
-import {SessionUser} from "@/types";
-import {getSession} from "@/app/actions/getCurrentUser";
+import { NextResponse } from "next/server";
+import { SessionUser } from "@/types";
+import { getSession } from "@/app/actions/getCurrentUser";
 import prisma from "@/app/libs/prismadb";
-import {User} from "@prisma/client";
+import { User } from "@prisma/client";
+import { redirect } from "next/navigation";
 
 export async function POST(req: Request) {
     try {
@@ -10,12 +11,7 @@ export async function POST(req: Request) {
         const sessionUser = session?.user as SessionUser;
 
         if (!session) {
-            return NextResponse.json(
-                {error: "Unauthenticated"},
-                {
-                    status: 401,
-                }
-            );
+            redirect("/signin");
         }
 
         if (sessionUser.role === "user") {
@@ -29,11 +25,11 @@ export async function POST(req: Request) {
             );
         }
 
-        const {fromTime, toTime} = await req.json();
+        const { fromTime, toTime } = await req.json();
 
         if (fromTime === "" || toTime === "") {
             return NextResponse.json(
-                {error: "Missing fields"},
+                { error: "Missing fields" },
                 {
                     status: 400,
                 }
@@ -147,12 +143,7 @@ export async function GET() {
         const sessionUser = session?.user as SessionUser;
 
         if (!session) {
-            return NextResponse.json(
-                {error: "Unauthenticated"},
-                {
-                    status: 401,
-                }
-            );
+            redirect("/signin");
         }
 
         if (sessionUser.role === "user") {

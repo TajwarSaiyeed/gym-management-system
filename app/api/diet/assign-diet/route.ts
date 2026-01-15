@@ -2,6 +2,7 @@ import prisma from "@/app/libs/prismadb";
 import { DietFood, SessionUser } from "@/types";
 import { NextResponse } from "next/server";
 import { getSession } from "@/app/actions/getCurrentUser";
+import { redirect } from "next/navigation";
 
 export async function POST(req: Request) {
   try {
@@ -10,12 +11,7 @@ export async function POST(req: Request) {
     const sessionUser = session?.user as SessionUser;
 
     if (!session) {
-      return NextResponse.json(
-        {
-          error: "Not authenticated",
-        },
-        { status: 401 }
-      );
+      redirect("/signin");
     }
 
     if (sessionUser.role === "user") {
@@ -78,7 +74,7 @@ export async function POST(req: Request) {
             },
           });
           await prisma.notification.create({
-            data:  {
+            data: {
               userId: student.id,
               userEmail: student.email,
               senderId: sessionUser.id,
@@ -107,7 +103,7 @@ export async function POST(req: Request) {
             },
           });
           await prisma.notification.create({
-            data:  {
+            data: {
               userId: student.id,
               userEmail: student.email,
               senderId: sessionUser.id,

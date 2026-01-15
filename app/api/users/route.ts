@@ -1,24 +1,20 @@
 import bcrypt from "bcrypt";
-import {NextResponse} from "next/server";
-import {SessionUser} from "@/types";
+import { NextResponse } from "next/server";
+import { SessionUser } from "@/types";
 import prisma from "@/app/libs/prismadb";
-import {User} from "@prisma/client";
-import {revalidatePath} from "next/cache";
+import { User } from "@prisma/client";
+import { revalidatePath } from "next/cache";
 
 import { getSession } from "@/app/actions/getCurrentUser";
+import { redirect } from "next/navigation";
 
 export async function GET(request: Request) {
     const session = await getSession();
 
     const sessionUser = session?.user as SessionUser;
 
-    if (!sessionUser?.email) {
-        return NextResponse.json(
-            {
-                error: "Not authenticated",
-            },
-            {status: 401}
-        );
+    if (!session) {
+        redirect("/signin");
     }
 
     if (sessionUser.role === "user") {
@@ -26,7 +22,7 @@ export async function GET(request: Request) {
             {
                 error: "Not authorized",
             },
-            {status: 403}
+            { status: 403 }
         );
     }
 
@@ -38,7 +34,7 @@ export async function GET(request: Request) {
             {
                 error: "Request URL is not available",
             },
-            {status: 500}
+            { status: 500 }
         );
     }
     // Parse the "page" and "limit" parameters
@@ -96,7 +92,7 @@ export async function POST(req: Request) {
             {
                 error: "Not authenticated",
             },
-            {status: 401}
+            { status: 401 }
         );
     }
 
@@ -105,7 +101,7 @@ export async function POST(req: Request) {
             {
                 error: "Not authorized",
             },
-            {status: 403}
+            { status: 403 }
         );
     }
 
@@ -116,12 +112,12 @@ export async function POST(req: Request) {
             {
                 error: "Missing email or password",
             },
-            {status: 400}
+            { status: 400 }
         );
     }
 
     const userExists = await prisma.user.findUnique({
-        where: {email: body.email},
+        where: { email: body.email },
     });
 
     if (userExists) {
@@ -129,7 +125,7 @@ export async function POST(req: Request) {
             {
                 error: "User already exists",
             },
-            {status: 409}
+            { status: 409 }
         );
     }
 
@@ -144,7 +140,7 @@ export async function POST(req: Request) {
     const hashedPassword = await bcrypt.hash(body.password, 12);
 
     const adminAccount = await prisma.user.findFirst({
-        where: {role: "admin"},
+        where: { role: "admin" },
     });
 
     const user = await prisma.user.create({
@@ -253,7 +249,7 @@ export async function PATCH(req: Request) {
             } else if (body.role) {
                 return NextResponse.json({
                     error: "You can't update the role",
-                } , {
+                }, {
                     status: 400
                 })
             }
@@ -290,7 +286,7 @@ export async function PATCH(req: Request) {
                     weight: body.weight !== "" ? body.weight : user.weight,
                     height: body.height !== "" ? body.height : user.height,
                     goal: body.goal !== "" ? body.goal : user.goal,
-                    level: body.level !== "" ? body.level :  user.level,
+                    level: body.level !== "" ? body.level : user.level,
                     hashedPassword,
                     isActive: body.isActive
                 }

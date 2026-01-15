@@ -3,6 +3,7 @@ import Stripe from "stripe";
 import { getSession } from "@/app/actions/getCurrentUser";
 import { SessionUser } from "@/types";
 import prisma from "@/app/libs/prismadb";
+import { redirect } from "next/navigation";
 
 const stripe = new Stripe(process.env.NEXT_PUBLIC_STRIPE_SECRET_KEY!, {
   apiVersion: "2023-08-16",
@@ -13,8 +14,8 @@ export async function GET(req: NextRequest) {
     const session = await getSession();
     const sessionUser = session?.user as SessionUser;
 
-    if (!sessionUser?.email) {
-      return NextResponse.json({ error: "Not authenticated" }, { status: 401 });
+    if (!session) {
+      redirect("/signin");
     }
 
     if (sessionUser.role !== "user") {

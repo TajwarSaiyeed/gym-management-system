@@ -1,22 +1,15 @@
 import { NextResponse } from "next/server";
-import { SessionUser } from "@/types";
 import { getSession } from "@/app/actions/getCurrentUser";
 import prisma from "@/app/libs/prismadb";
+import { redirect } from "next/navigation";
 
 export const dynamic = "force-dynamic";
 
 export async function GET() {
   const session = await getSession();
 
-  const sessionUser = session?.user as SessionUser;
-
-  if (!sessionUser?.email) {
-    return NextResponse.json(
-      {
-        error: "Not authenticated",
-      },
-      { status: 401 }
-    );
+  if (!session) {
+    redirect("/signin");
   }
 
   const users = await prisma.user.findMany({

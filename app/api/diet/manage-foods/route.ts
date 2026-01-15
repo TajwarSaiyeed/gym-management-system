@@ -1,6 +1,7 @@
 import { SessionUser } from "@/types";
 import { getSession } from "@/app/actions/getCurrentUser";
 import { NextResponse } from "next/server";
+import { redirect } from "next/navigation";
 
 import prisma from "@/app/libs/prismadb";
 
@@ -9,12 +10,7 @@ export async function GET(req: Request) {
     const session = await getSession();
 
     if (!session) {
-      return NextResponse.json(
-        {
-          error: "Not authenticated",
-        },
-        { status: 401 }
-      );
+      redirect("/signin");
     }
 
     const foods = await prisma.dietFoodList.findMany();
@@ -50,12 +46,7 @@ export async function POST(req: Request) {
     const sessionUser = session?.user as SessionUser;
 
     if (!session) {
-      return NextResponse.json(
-        {
-          error: "Not authenticated",
-        },
-        { status: 401 }
-      );
+      redirect("/signin");
     }
 
     if (sessionUser.role === "user") {
@@ -120,12 +111,7 @@ export async function DELETE(req: Request) {
     const sessionUser = session?.user as SessionUser;
 
     if (!session) {
-      return NextResponse.json(
-        {
-          error: "Not authenticated",
-        },
-        { status: 401 }
-      );
+      redirect("/signin");
     }
 
     if (sessionUser.role === "user") {

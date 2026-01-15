@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import prisma from "@/app/libs/prismadb";
 import { getSession } from "@/app/actions/getCurrentUser";
+import { redirect } from "next/navigation";
 import { SessionUser } from "@/types";
 
 export async function GET() {
@@ -9,12 +10,7 @@ export async function GET() {
     const sessionUser = session?.user as SessionUser;
 
     if (!session) {
-      return NextResponse.json(
-        { error: "Unauthenticated" },
-        {
-          status: 401,
-        }
-      );
+      redirect("/signin");
     }
 
     if (sessionUser.role !== "user") {

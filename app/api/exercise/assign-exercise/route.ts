@@ -3,6 +3,7 @@ import { getSession } from "@/app/actions/getCurrentUser";
 import { NextResponse } from "next/server";
 import prisma from "@/app/libs/prismadb";
 import { WorkOut } from "@prisma/client";
+import { redirect } from "next/navigation";
 
 export async function POST(req: Request) {
   try {
@@ -11,12 +12,7 @@ export async function POST(req: Request) {
     const sessionUser = session?.user as SessionUser;
 
     if (!session) {
-      return NextResponse.json(
-        {
-          error: "Not authenticated",
-        },
-        { status: 401 }
-      );
+      redirect("/signin");
     }
 
     if (sessionUser.role === "user") {

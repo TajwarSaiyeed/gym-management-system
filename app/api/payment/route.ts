@@ -3,6 +3,7 @@ import { getSession } from "@/app/actions/getCurrentUser";
 import { NextResponse } from "next/server";
 
 import Stripe from "stripe";
+import { redirect } from "next/navigation";
 
 const stripe = new Stripe(process.env.NEXT_PUBLIC_STRIPE_SECRET_KEY!, {
   apiVersion: "2023-08-16",
@@ -13,8 +14,8 @@ export async function POST(req: Request) {
     const session = await getSession();
     const sessionUser = session?.user as SessionUser;
 
-    if (!sessionUser?.email) {
-      return NextResponse.json({ error: "Not authenticated" }, { status: 401 });
+    if (!session) {
+      redirect("/signin");
     }
 
     if (sessionUser.role !== "user") {

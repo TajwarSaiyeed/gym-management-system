@@ -4,15 +4,16 @@ import { NextResponse } from "next/server";
 
 import prisma from "@/app/libs/prismadb";
 import Error from "next/error";
-import {Fees} from "@prisma/client";
+import { Fees } from "@prisma/client";
+import { redirect } from "next/navigation";
 
 export async function POST(req: Request) {
   try {
     const session = await getSession();
     const sessionUser = session?.user as SessionUser;
 
-    if (!sessionUser?.email) {
-      return NextResponse.json({ error: "Not authenticated" }, { status: 401 });
+    if (!session) {
+      redirect("/signin");
     }
 
     if (sessionUser.role === "user") {

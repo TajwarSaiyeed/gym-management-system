@@ -3,6 +3,7 @@ import { NextResponse } from "next/server";
 import { getSession } from "@/app/actions/getCurrentUser";
 import { SessionUser } from "@/types";
 import prisma from "@/app/libs/prismadb";
+import { redirect } from "next/navigation";
 
 export async function GET() {
   try {
@@ -10,7 +11,7 @@ export async function GET() {
     const sessionUser = session?.user as SessionUser;
 
     if (!session) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+      redirect("/signin");
     }
 
     const user = await prisma.user.findUnique({
@@ -76,7 +77,7 @@ export async function POST(req: Request) {
     const session = await getSession();
 
     if (!session) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+      redirect("/signin");
     }
 
     const { notification_text, type, userEmail, userId, senderId, pathName } =

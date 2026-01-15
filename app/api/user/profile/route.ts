@@ -1,8 +1,9 @@
-import {NextResponse} from "next/server";
+import { NextResponse } from "next/server";
 
-import {SessionUser} from "@/types";
-import {getSession} from "@/app/actions/getCurrentUser";
+import { SessionUser } from "@/types";
+import { getSession } from "@/app/actions/getCurrentUser";
 import prisma from "@/app/libs/prismadb";
+import { redirect } from "next/navigation";
 
 
 export async function GET(req: Request) {
@@ -10,12 +11,8 @@ export async function GET(req: Request) {
         const session = await getSession()
         const sessionUser = session?.user as SessionUser
 
-        if (!session && !sessionUser.email) {
-            return NextResponse.json({
-                error: "Not authenticated"
-            }, {
-                status: 401,
-            })
+        if (!session) {
+            redirect("/signin");
         }
 
         const user = await prisma.user.findUnique({

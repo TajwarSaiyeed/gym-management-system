@@ -3,19 +3,15 @@ import { NextResponse } from "next/server";
 import { options } from "../auth/[...nextauth]/options";
 import { SessionUser } from "@/types";
 import prisma from "@/app/libs/prismadb";
+import { redirect } from "next/navigation";
 
 export async function GET() {
   const session = await getServerSession(options);
 
   const sessionUser = session?.user as SessionUser;
 
-  if (!sessionUser?.email) {
-    return NextResponse.json(
-      {
-        error: "Not authenticated",
-      },
-      { status: 401 }
-    );
+  if (!session) {
+    redirect("/signin");
   }
 
   if (sessionUser.role === "user") {
