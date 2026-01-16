@@ -4,6 +4,16 @@
 
 The Gym Management System is a web application designed to facilitate the management of a fitness center or gym. It provides various features for different user roles including administrators, trainers, and students.
 
+## Premium Version
+
+Get access to the **premium version** with the latest code and enhanced features!
+
+![Premium Banner](./premium-banner.png)
+
+- **Contact:** [tajwarsaiyeed.web.dev@gmail.com](mailto:tajwarsaiyeed.web.dev@gmail.com)
+- **Live Demo:** [https://gms-premium.tajwar.app/](https://gms-premium.tajwar.app/)
+
+
 ## Features
 
 The Gym Management System includes the following features:
