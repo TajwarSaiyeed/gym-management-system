@@ -1,3 +1,7 @@
+## Laravel backend
+
+A **Laravel 13** port lives in [`laravel/`](./laravel/): **Inertia.js + React** web UI (Breeze), REST **API** + **Sanctum**, and a SQL schema matching the original Prisma models. The **Next.js** app remains in the repo root for reference.
+
 ## Premium Version
 
 Get access to the **premium version** with the latest code and enhanced features!
